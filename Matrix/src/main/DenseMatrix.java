@@ -15,8 +15,8 @@ import java.util.Scanner;
 public class DenseMatrix implements Matrix
 {
 	
-	public int hight, width;
-	public int[][] value;
+	private int hight, width;
+	private int[][] value;
 	
 	/**
 	 * Конструктор матрицы, считывающий ее из файла fileName 

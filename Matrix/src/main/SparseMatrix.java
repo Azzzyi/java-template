@@ -15,14 +15,14 @@ import java.util.Scanner;
 public class SparseMatrix implements Matrix
 {
 		
-	public int hight, width;
+	private int hight, width;
 	/**
 	 * Класс описывающий ненулевую строку разреженной матрицы. 
 	 * Поле nom - номер строки. value и col - списки значений и номеров 
 	 * столбцов, соответственно, ненулевых эллементов. 
 	 * 
 	 */
-	public class Row {
+	private class Row {
 		int nom = 0;
 		List<Integer> value;
 		List<Integer> col;
@@ -34,7 +34,7 @@ public class SparseMatrix implements Matrix
 		}
 		
 	}
-	public List<Row> listOfRows;  
+	private List<Row> listOfRows;  
 	
 	/**
 	 * Конструктор матрицы, считывающий ее из файла fileName.
