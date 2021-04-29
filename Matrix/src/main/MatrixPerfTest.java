@@ -2,16 +2,14 @@ package main;
 
 import java.io.IOException;
 
-import main.*;
-
 public class MatrixPerfTest
 {	
 	public static final String MATRIX1_NAME = "test1.txt";
 	public static final String MATRIX2_NAME = "test2.txt";
 	public static final int SEED1 = 1;
 	public static final int SEED2 = 2;
-	public static final int EMPTY_ROW_FRACTION = 5;
-	public static final int SIZE = 50;
+	public static final int EMPTY_ROW_FRACTION = 1;
+	public static final int SIZE = 400;
 	
 	public static void main(String s[]) throws IOException
 	{	

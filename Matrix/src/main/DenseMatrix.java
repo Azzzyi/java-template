@@ -59,6 +59,28 @@ public class DenseMatrix implements Matrix
 		this.value = new int[this.hight + 1][this.width + 1];
 	}
 	
+	@Override
+	public Line getRow(int nom) {
+		Line l = new Line(nom, new ArrayList<Pair>());
+		for(int i = 1; i <= width; i++) {
+			if(value[nom][i] != 0) {
+				l.list.add(new Pair(value[nom][i], i));
+			}
+		}
+		return l;
+	}
+
+	@Override
+	public Line getCol(int nom) {
+		Line l = new Line(nom, new ArrayList<Pair>());
+		for(int i = 1; i <= hight; i++) {
+			if(value[i][nom] != 0) {
+				l.list.add(new Pair(value[i][nom], i));
+			}
+		}
+		return l;
+	}
+	
 	/**
 	 * Выводит матрицу в консль.
 	 */
@@ -84,11 +106,7 @@ public class DenseMatrix implements Matrix
 		DenseMatrix X = new DenseMatrix(this.hight, o.getWidth());
 		for(int i = 1; i <= X.hight; i++)
 			for(int j = 1; j <= X.width; j++) {
-				int sum = 0;
-				for(int k = 1; k <= width; k++) {
-					sum+= this.get(i, k) * o.get(k, j); 
-				}
-					X.value[i][j] = sum;
+				X.value[i][j] = getRow(i).lineMul(o.getCol(j));
 			}
 		return X;
 	}
@@ -117,17 +135,11 @@ public class DenseMatrix implements Matrix
 			}
 			
 			@Override public void run(){
-				for(int i = 1; i <= hight; i++)
-				{
-					if( i % THREAD_COUNT == nom )
+				for(int i = 1; i <= X.hight; i++)
+					if( i % THREAD_COUNT == nom ) 
 					for(int j = 1; j <= X.width; j++) {
-						int sum = 0;
-						for(int k = 1; k <= width; k++) {
-							sum+= get(i, k) * o.get(k, j); 
-						}
-							X.value[i][j] = sum;
+						X.value[i][j] = getRow(i).lineMul(o.getCol(j));
 					}
-				}
 			}
 		}
 		
