@@ -3,6 +3,7 @@ package main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,7 +35,7 @@ public class SparseMatrix implements Matrix
 		}
 		for(Line l: rowList) {
 			for(Pair p: l.list) {
-				cols.get(p.key - 1).list.add(new Pair(p.value, l.nom));
+				cols.get(p.getK() - 1).list.add(new Pair(p.getV(), l.getN()));
 			}
 		}
 		colList = new ArrayList<Line>();
@@ -52,7 +53,7 @@ public class SparseMatrix implements Matrix
 		}
 		for(Line l: colList) {
 			for(Pair p: l.list) {
-				rows.get(p.key - 1).list.add(new Pair(p.value, l.nom));
+				rows.get(p.getK() - 1).list.add(new Pair(p.getV(), l.getN()));
 			}
 		}
 		rowList = new ArrayList<Line>();
@@ -112,10 +113,10 @@ public class SparseMatrix implements Matrix
 			System.exit(-1);
 		}
 		for(Line l: rowList) {
-			if(l.nom == i) {
+			if(l.getN() == i) {
 				for(Pair p: l.list) {
-					if(p.key == j) {
-						return p.value;
+					if(p.getK() == j) {
+						return p.getV();
 					}
 				}
 			}
@@ -126,7 +127,7 @@ public class SparseMatrix implements Matrix
 	@Override
 	public Line getRow(int nom) {
 		for(Line l: rowList) {
-			if(l.nom == nom) {
+			if(l.getN() == nom) {
 				return l;
 			}
 		}
@@ -136,7 +137,7 @@ public class SparseMatrix implements Matrix
 	@Override
 	public Line getCol(int nom) {
 		for(Line l: colList) {
-			if(l.nom == nom) {
+			if(l.getN() == nom) {
 				return l;
 			}
 		}
@@ -167,7 +168,7 @@ public class SparseMatrix implements Matrix
 		}
 		SparseMatrix X = new SparseMatrix(hight, o.getWidth());
 		for(Line l : rowList) {
-			Line n = new Line(l.nom, new ArrayList<Pair>());
+			Line n = new Line(l.getN(), new ArrayList<Pair>());
 			for(int i = 1; i <= X.width; i++) {
 				Line c =  o.getCol(i);
 				if(c.list.isEmpty())
@@ -205,8 +206,8 @@ public class SparseMatrix implements Matrix
 			
 			@Override public void run(){
 				for(Line l : rowList) {
-					if(l.nom % THREAD_COUNT == nom) {
-					Line n = new Line(l.nom, new ArrayList<Pair>());
+					if(l.getN() % THREAD_COUNT == nom) {
+					Line n = new Line(l.getN(), new ArrayList<Pair>());
 					for(int i = 1; i <= X.width; i++) {
 						Line c =  o.getCol(i);
 						if(c.list.isEmpty())
@@ -256,7 +257,7 @@ public class SparseMatrix implements Matrix
 			return false;
 		for(int i = 1; i <= hight; i++) {
 			for(int j = 1; j <= width; j++) {
-				if(this.get(i, j) != matrix.get(i, j))
+				if((this.get(i, j) != matrix.get(i, j)))
 					return false;
 			}
 		}
@@ -278,7 +279,7 @@ public class SparseMatrix implements Matrix
 		this.hight = hight;
 		
 	}
-
+	
 	@Override
 	public void setWidth(int width) {
 		this.width = width;
